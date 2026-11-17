@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   THEME TOKENS — light mode only. Restyle to a mockup by swapping these.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --accent: #0f766e;          /* teal-700 */
+  --accent-strong: #115e59;   /* teal-800 */
+  --accent-soft: #ccfbf1;     /* teal-100 */
+  --accent-fg: #ffffff;
+
+  --bg: #f6f7f9;              /* page background */
+  --surface: #ffffff;         /* cards */
+  --surface-muted: #f1f5f9;   /* slate-100 */
+  --border: #e2e8f0;          /* slate-200 */
+  --fg: #0f172a;              /* slate-900 */
+  --fg-muted: #475569;        /* slate-600 */
+  --fg-subtle: #94a3b8;       /* slate-400 */
+
+  --warn-bg: #fff7ed;         /* orange-50 */
+  --warn-border: #fdba74;     /* orange-300 */
+  --warn-fg: #9a3412;         /* orange-800 */
+  --danger: #b91c1c;
+
+  --radius-card: 1rem;        /* rounded-2xl */
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --tap: 44px;                /* minimum tap target */
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-border: var(--warn-border);
+  --color-warn-fg: var(--warn-fg);
+  --color-danger: var(--danger);
+  --radius-card: var(--radius-card);
+  --shadow-card: var(--shadow-card);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+/* Utility classes built on tokens */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.tap {
+  min-height: var(--tap);
+  min-width: var(--tap);
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  min-height: var(--tap);
+  --tw-ring-color: var(--accent);
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+.btn-secondary {
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-muted);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--fg-muted);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--surface-muted);
+}
+
+/* Accordion animation (Radix exposes --radix-accordion-content-height) */
+@keyframes acc-down {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-accordion-content-height); opacity: 1; }
+}
+@keyframes acc-up {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}
+.acc-content[data-state="open"] { animation: acc-down 180ms ease-out; }
+.acc-content[data-state="closed"] { animation: acc-up 150ms ease-in; }
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-muted) 25%, #e9eef4 37%, var(--surface-muted) 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acc-content, .skeleton { animation: none !important; }
+}
